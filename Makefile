@@ -14,7 +14,7 @@ clean:
 	@rm -rf $(VENV)
 
 $(VENV):
-	poetry install --no-root
+	poetry install
 
 $(REPORTS):
 	mkdir $(REPORTS)
