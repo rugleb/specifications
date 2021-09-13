@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import date, timedelta
+from datetime import timedelta
 from enum import Enum, unique
 from typing import Final, FrozenSet
 
@@ -22,7 +22,6 @@ class Movie:
 
     name: str
     directed_by: str
-    released_at: date
     duration: timedelta
     genres: FrozenSet[Genre]
     rating: float
@@ -32,7 +31,6 @@ MOVIES: Final = (
     PULP_FICTION := Movie(
         name="Pulp Fiction",
         directed_by="Quentin Tarantino",
-        released_at=date(1994, 5, 21),
         duration=timedelta(minutes=154),
         genres=frozenset({
             Movie.Genre.CRIME,
@@ -44,7 +42,6 @@ MOVIES: Final = (
     HATEFUL_EIGHT := Movie(
         name="The Hateful Eight",
         directed_by="Quentin Tarantino",
-        released_at=date(2015, 12, 7),
         duration=timedelta(minutes=168),
         genres=frozenset({
             Movie.Genre.CRIME,
@@ -58,7 +55,6 @@ MOVIES: Final = (
     GODFATHER := Movie(
         name="The Godfather",
         directed_by="Francis Ford Coppola",
-        released_at=date(1972, 3, 14),
         duration=timedelta(minutes=177),
         genres=frozenset({
             Movie.Genre.CRIME,
@@ -69,7 +65,6 @@ MOVIES: Final = (
     INCEPTION := Movie(
         name="Inception",
         directed_by="Christopher Nolan",
-        released_at=date(2010, 7, 8),
         duration=timedelta(minutes=148),
         genres=frozenset({
             Movie.Genre.ACTION,
@@ -81,7 +76,6 @@ MOVIES: Final = (
     FIGHT_CLUB := Movie(
         name="Fight Club",
         directed_by="David Fincher",
-        released_at=date(1999, 9, 10),
         duration=timedelta(minutes=139),
         genres=frozenset({
             Movie.Genre.DRAMA,
@@ -91,7 +85,6 @@ MOVIES: Final = (
     INTERSTELLAR := Movie(
         name="Interstellar",
         directed_by="Christopher Nolan",
-        released_at=date(2014, 10, 26),
         duration=timedelta(minutes=169),
         genres=frozenset({
             Movie.Genre.ADVENTURE,
@@ -102,7 +95,6 @@ MOVIES: Final = (
     DJANGO_UNCHAINED := Movie(
         name="Django Unchained",
         directed_by="Quentin Tarantino",
-        released_at=date(2012, 12, 11),
         duration=timedelta(minutes=165),
         genres=frozenset({
             Movie.Genre.DRAMA,
@@ -172,14 +164,11 @@ def test_specification_builder() -> None:
     # compile target specification
     amazing_movie = favorite_genre.and_(high_rating).and_not(already_watched)
 
-    specified = amazing_movie.select_specified(MOVIES)
-    assert tuple(specified) == (
+    assert tuple(amazing_movie.select_specified(MOVIES)) == (
         GODFATHER,
         INCEPTION,
     )
-
-    not_specified = amazing_movie.invert().select_specified(MOVIES)
-    assert tuple(not_specified) == (
+    assert tuple(amazing_movie.invert().select_specified(MOVIES)) == (
         PULP_FICTION,
         HATEFUL_EIGHT,
         FIGHT_CLUB,
