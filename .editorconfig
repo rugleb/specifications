@@ -1,3 +1,5 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
 root = true
 
 [*]
@@ -12,6 +14,9 @@ tab_width = 4
 
 [*.py]
 max_line_length = 79
+
+[{*.yml, *.yaml, *.json}]
+indent_size = 2
 
 [Makefile]
 indent_style = tab
