@@ -25,3 +25,8 @@ jobs:
         run: make lint
       - name: Run tests
         run: make test
+      - name: Upload coverage
+        uses: codecov/codecov-action@v1
+        with:
+          file: .reports/coverage/cobertura.xml
+          fail_ci_if_error: true
