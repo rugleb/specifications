@@ -84,6 +84,9 @@ OrSpecification = Or
 
 
 class Invert(Specification[T]):
+    __slots__ = (
+        "_specification",
+    )
 
     def __init__(self, specification: Specification[T]) -> None:
         self._specification = specification
