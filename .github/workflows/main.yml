@@ -21,6 +21,8 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - uses: snok/install-poetry@v1
+      - name: Setup environment
+        run: make setup
       - name: Run linters
         run: make lint
       - name: Run tests
