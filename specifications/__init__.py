@@ -53,6 +53,8 @@ class And(Specification[T]):
     )
 
     def __init__(self, *specifications: Specification[T]) -> None:
+        assert len(specifications) > 0, "No specifications were provided"
+
         self._specifications = specifications
 
     def is_specified_by(self, candidate: T) -> bool:
@@ -71,6 +73,8 @@ class Or(Specification[T]):
     )
 
     def __init__(self, *specifications: Specification[T]) -> None:
+        assert len(specifications) > 0, "No specifications were provided"
+
         self._specifications = specifications
 
     def is_specified_by(self, candidate: T) -> bool:
