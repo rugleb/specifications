@@ -30,3 +30,9 @@ jobs:
         with:
           file: .reports/coverage/cobertura.xml
           fail_ci_if_error: true
+      - name: Upload reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: reports
+          path: .reports
+          if-no-files-found: error
