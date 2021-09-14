@@ -4,8 +4,8 @@ on: [push, pull_request]
 
 jobs:
 
-  lint:
-    name: Lint
+  ci:
+    name: CI
     strategy:
       matrix:
         python-version:
@@ -37,4 +37,35 @@ jobs:
         with:
           name: reports
           path: .reports
+          if-no-files-found: error
+
+  build:
+    name: Build
+    strategy:
+      matrix:
+        python-version:
+          - 3.8
+          - 3.9
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - uses: snok/install-poetry@v1
+      - name: Install dependencies
+        run: pip install --upgrade pip build wheel check-wheel-contents
+      - name: Build package
+        run: poetry build
+      - name: Check wheel contents
+        run: check-wheel-contents dist/*.whl
+      - name: Upload build
+        uses: actions/upload-artifact@v2
+        with:
+          name: build
+          path: dist
           if-no-files-found: error
